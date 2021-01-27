@@ -1,3 +1,5 @@
+// TODO: Check out https://rextester.com/BUAFK86204
+
 #include "os/c.h"
 #include "util/int.h"
 #include "util/io.h"
@@ -28,6 +30,9 @@ htons(uint16_t) noexcept;
 #define AF_INET 2
 #define INADDR_ANY 0
 #define SOCK_STREAM 1
+#define SOL_SOCKET 1
+#define SO_REUSEADDR 2
+#define SO_REUSEPORT 15
 struct sockaddr {
     sa_family_t sa_family;
     char sa_data[14];
@@ -39,19 +44,50 @@ bind(int, const struct sockaddr*, socklen_t) noexcept;
 int
 listen(int, int) noexcept;
 int
+setsockopt(int, int, int, const void*, socklen_t) noexcept;
+int
 socket(int, int, int) noexcept;
 }
 
+static String data;
+
 static void
 handleGet(int socket) noexcept {
-    StringView response = "This was GET!\n";
+    String response("HTTP/1.1 200 OK\nConnection: close\nContent-Length: ");
+    response << data.size << "\n\n" << data;
+
     write(socket, response.data, response.size);
+    close(socket);
 }
 
 static void
-handlePost(int socket) noexcept {
-    StringView response = "This was POST!\n";
+handlePost(int socket, StringView req) noexcept {
+    StringPosition body = req.find("\r\n\n");
+    if (body != SV_NOT_FOUND) {
+        data = req.substr(body + 2);
+    }
+    else {
+        body = req.find("\r\n\r\n");
+        if (body != SV_NOT_FOUND) {
+            data = req.substr(body + 4);
+        }
+        else {
+            String response = "HTTP/1.1 400 Bad Request\n";
+
+            write(socket, response.data, response.size);
+            close(socket);
+            return;
+        }
+    }
+
+    String resBody;
+    resBody << data.size << '\n';
+
+    String response = "HTTP/1.1 200 OK\nConnection: close\nContent-Length: ";
+    response << resBody.size << "\n\n" << resBody;
+
     write(socket, response.data, response.size);
+    close(socket);
 }
 
 static void
@@ -64,7 +100,7 @@ handleRequest(int socket, StringView req) noexcept {
             handleGet(socket);
             break;
         case 'P':
-            handlePost(socket);
+            handlePost(socket, req);
             break;
         default:
             sout << "Unrecognized HTTP request\n";
@@ -76,7 +112,7 @@ static void
 serve() noexcept {
     int sockfd, newsockfd, portno, n;
     unsigned int clilen;
-    char buffer[256];
+    char buffer[512];
     struct sockaddr_in serv_addr, cli_addr;
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -84,6 +120,10 @@ serve() noexcept {
         serr << "socket()\n";
         return;
     }
+
+    int yes = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR,  &yes, sizeof(yes));
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT,  &yes, sizeof(yes));
 
     memset(&serv_addr, 0, sizeof(serv_addr));
 
@@ -105,27 +145,29 @@ serve() noexcept {
 
     sout << "Listening on port 8080\n";
 
-    clilen = sizeof(cli_addr);
-    newsockfd = accept(sockfd,
-                       reinterpret_cast<struct sockaddr*>(&cli_addr),
-                       &clilen);
-    if (newsockfd < 0) {
-        serr << "accept()\n";
-        return;
+    while (true) {
+        clilen = sizeof(cli_addr);
+        newsockfd = accept(sockfd,
+                           reinterpret_cast<struct sockaddr*>(&cli_addr),
+                           &clilen);
+        if (newsockfd < 0) {
+            serr << "accept()\n";
+            return;
+        }
+
+        memset(buffer, 0, sizeof(buffer));
+        n = read(newsockfd, buffer, sizeof(buffer));
+        if (n < 0) {
+            serr << "read()\n";
+            return;
+        }
+
+        StringView request(buffer, n);
+
+        sout << buffer << '\n';
+
+        handleRequest(newsockfd, request);
     }
-
-    memset(buffer, 0, 256);
-    n = read(newsockfd, buffer, 256);
-    if (n < 0) {
-        serr << "read()\n";
-        return;
-    }
-
-    StringView request(buffer, n);
-
-    sout << buffer << '\n';
-
-    handleRequest(newsockfd, request);
 }
 
 int
