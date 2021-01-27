@@ -53,7 +53,16 @@ static String data;
 
 static void
 handleGet(int socket) noexcept {
-    String response("HTTP/1.1 200 OK\nConnection: close\nContent-Length: ");
+    StringView contentType;
+    if (data.size && (data[0] == '[' || data[0] == '{')) {
+        contentType = "application/json";
+    }
+    else {
+        contentType = "text/plain; charset=utf-8";
+    }
+
+    String response("HTTP/1.1 200 OK\nConnection: close\nContent-Type: ");
+    response << contentType << "\nContent-Length: ";
     response << data.size << "\n\n" << data;
 
     write(socket, response.data, response.size);
