@@ -132,8 +132,8 @@ serve() noexcept {
     }
 
     int yes = 1;
-    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR,  &yes, sizeof(yes));
-    setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT,  &yes, sizeof(yes));
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
+    setsockopt(sockfd, SOL_SOCKET, SO_REUSEPORT, &yes, sizeof(yes));
 
     memset(&serv_addr, 0, sizeof(serv_addr));
 
