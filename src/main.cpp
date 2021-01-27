@@ -117,11 +117,12 @@ handleRequest(int socket, StringView req) noexcept {
     }
 }
 
+// TODO: Read larger HTTP requests.
 static void
 serve() noexcept {
     int sockfd, newsockfd, portno, n;
     unsigned int clilen;
-    char buffer[512];
+    char buffer[4096];
     struct sockaddr_in serv_addr, cli_addr;
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
