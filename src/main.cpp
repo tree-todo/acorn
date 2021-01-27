@@ -4,7 +4,7 @@
 #include "util/int.h"
 #include "util/io.h"
 #include "util/string-view.h"
-#include "util/string2.h"
+#include "util/string.h"
 
 extern "C" {
 // bits/alltypes.h

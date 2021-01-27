@@ -107,42 +107,42 @@ else()
 endif()
 
 set(TSUNAGARI_SOURCES ${TSUNAGARI_SOURCES}
-    ${HERE}/src/util/align.h
+    #${HERE}/src/util/align.h
     ${HERE}/src/util/assert.h
     ${HERE}/src/util/constexpr.h
     ${HERE}/src/util/fnv.cpp
     ${HERE}/src/util/fnv.h
-    ${HERE}/src/util/function.h
-    ${HERE}/src/util/hash.cpp
-    ${HERE}/src/util/hash.h
-    ${HERE}/src/util/hashtable.h
+    #${HERE}/src/util/function.h
+    #${HERE}/src/util/hash.cpp
+    #${HERE}/src/util/hash.h
+    #${HERE}/src/util/hashtable.h
     ${HERE}/src/util/int.h
     ${HERE}/src/util/io.cpp
     ${HERE}/src/util/io.h
-    ${HERE}/src/util/jobs.cpp
-    ${HERE}/src/util/jobs.h
-    ${HERE}/src/util/json.cpp
-    ${HERE}/src/util/json.h
-    ${HERE}/src/util/likely.h
-    ${HERE}/src/util/list.h
-    ${HERE}/src/util/markable.h
-    ${HERE}/src/util/math2.h
+    #${HERE}/src/util/jobs.cpp
+    #${HERE}/src/util/jobs.h
+    #${HERE}/src/util/json.cpp
+    #${HERE}/src/util/json.h
+    #${HERE}/src/util/likely.h
+    #${HERE}/src/util/list.h
+    #${HERE}/src/util/markable.h
+    #${HERE}/src/util/math2.h
     ${HERE}/src/util/meta.h
     ${HERE}/src/util/move.h
     ${HERE}/src/util/new.cpp
     ${HERE}/src/util/new.h
     ${HERE}/src/util/noexcept.h
     ${HERE}/src/util/pool.h
-    ${HERE}/src/util/random.cpp
-    ${HERE}/src/util/random.h
+    #${HERE}/src/util/random.cpp
+    #${HERE}/src/util/random.h
     ${HERE}/src/util/string-view.cpp
     ${HERE}/src/util/string-view.h
     ${HERE}/src/util/string.cpp
     ${HERE}/src/util/string.h
     ${HERE}/src/util/string2.cpp
     ${HERE}/src/util/string2.h
-    ${HERE}/src/util/transform.cpp
-    ${HERE}/src/util/transform.h
+    #${HERE}/src/util/transform.cpp
+    #${HERE}/src/util/transform.h
     ${HERE}/src/util/vector.h
 )
 
