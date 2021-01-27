@@ -313,19 +313,19 @@ if(LINUX AND NOT AV_EM)
     endif()
 
     if("${GLIBC_VERSION}" VERSION_LESS "2.17")
-        target_link_libraries(tsunagari rt)
+        #target_link_libraries(tsunagari rt)
     endif()
 
     if(GLIBC_VERSION)
-        target_link_libraries(tsunagari m pthread)
+        #target_link_libraries(tsunagari m pthread)
     endif()
 endif()
 
 if(FREEBSD OR NETBSD)
-    target_link_libraries(tsunagari PUBLIC  m pthread)
+    #target_link_libraries(tsunagari PUBLIC  m pthread)
 endif()
 if(AV_EM)
-    target_link_libraries(tsunagari PUBLIC  pthread)
+    #target_link_libraries(tsunagari PUBLIC  pthread)
 endif()
 
 
