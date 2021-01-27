@@ -52,17 +52,9 @@ set(TSUNAGARI_SOURCES ${TSUNAGARI_SOURCES}
     ${HERE}/src/os/chrono.h
     ${HERE}/src/os/io.h
     ${HERE}/src/os/mapped-file.h
-    ${HERE}/src/os/mutex.h
-    ${HERE}/src/os/thread.h
+    #${HERE}/src/os/mutex.h
+    #${HERE}/src/os/thread.h
     ${HERE}/src/os/os.h
-)
-set(PACK_TOOL_SOURCES ${PACK_TOOL_SOURCES}
-    ${HERE}/src/os/c.h
-    ${HERE}/src/os/condition-variable.h
-    ${HERE}/src/os/mapped-file.h
-    ${HERE}/src/os/mutex.h
-    ${HERE}/src/os/os.h
-    ${HERE}/src/os/thread.h
 )
 
 if (WIN32)
@@ -71,8 +63,8 @@ if (WIN32)
         ${HERE}/src/os/windows-c.cpp
         ${HERE}/src/os/windows-c.h
         ${HERE}/src/os/windows-chrono.cpp
-        ${HERE}/src/os/windows-mapped-file.cpp
-        ${HERE}/src/os/windows-mapped-file.h
+        #${HERE}/src/os/windows-mapped-file.cpp
+        #${HERE}/src/os/windows-mapped-file.h
         ${HERE}/src/os/windows.cpp
         ${HERE}/src/os/windows.h
         ${HERE}/src/os/windows/io.cpp
@@ -82,13 +74,13 @@ elseif(APPLE)
     set(TSUNAGARI_SOURCES ${TSUNAGARI_SOURCES}
         ${HERE}/src/os/mac-c.h
         ${HERE}/src/os/mac-chrono.cpp
-        ${HERE}/src/os/mac-gui.mm
-        ${HERE}/src/os/mac-gui.h
-        ${HERE}/src/os/mac-thread.cpp
-        ${HERE}/src/os/mac-thread.h
-        ${HERE}/src/os/unix-mapped-file.cpp
-        ${HERE}/src/os/unix-mapped-file.h
-        ${HERE}/src/os/unix-mutex.h
+        #${HERE}/src/os/mac-gui.mm
+        #${HERE}/src/os/mac-gui.h
+        #${HERE}/src/os/mac-thread.cpp
+        #${HERE}/src/os/mac-thread.h
+        #${HERE}/src/os/unix-mapped-file.cpp
+        #${HERE}/src/os/unix-mapped-file.h
+        #${HERE}/src/os/unix-mutex.h
         ${HERE}/src/os/unix.cpp
         ${HERE}/src/os/unix/io.cpp
         ${HERE}/src/os/unix/io.h
@@ -97,9 +89,9 @@ else()
     set(TSUNAGARI_SOURCES ${TSUNAGARI_SOURCES}
         ${HERE}/src/os/linux-c.h
         ${HERE}/src/os/unix-chrono.cpp
-        ${HERE}/src/os/unix-mapped-file.cpp
-        ${HERE}/src/os/unix-mutex.h
-        ${HERE}/src/os/unix-thread.h
+        #${HERE}/src/os/unix-mapped-file.cpp
+        #${HERE}/src/os/unix-mutex.h
+        #${HERE}/src/os/unix-thread.h
         ${HERE}/src/os/unix.cpp
         ${HERE}/src/os/unix/io.cpp
         ${HERE}/src/os/unix/io.h
@@ -152,14 +144,8 @@ if(MSVC OR ${CMAKE_VERSION} VERSION_LESS 3.1)
     set(TSUNAGARI_SOURCES ${TSUNAGARI_SOURCES}
         ${HERE}/src/util/assert.cpp
     )
-    set(PACK_TOOL_SOURCES ${PACK_TOOL_SOURCES}
-        ${HERE}/src/util/assert.cpp
-    )
 else()
     set(TSUNAGARI_SOURCES ${TSUNAGARI_SOURCES}
-        $<${IS_DEBUG}:${HERE}/src/util/assert.cpp>
-    )
-    set(PACK_TOOL_SOURCES ${PACK_TOOL_SOURCES}
         $<${IS_DEBUG}:${HERE}/src/util/assert.cpp>
     )
 endif()
