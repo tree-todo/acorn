@@ -51,7 +51,7 @@ set(TSUNAGARI_SOURCES ${TSUNAGARI_SOURCES}
     ${HERE}/src/os/c.h
     ${HERE}/src/os/chrono.h
     ${HERE}/src/os/io.h
-    ${HERE}/src/os/mapped-file.h
+    #${HERE}/src/os/mapped-file.h
     #${HERE}/src/os/mutex.h
     #${HERE}/src/os/thread.h
     ${HERE}/src/os/os.h
