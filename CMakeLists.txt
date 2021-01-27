@@ -155,10 +155,7 @@ endif()
 # Targets
 #
 
-add_library(tsunagari ${TSUNAGARI_SOURCES})
-
-add_executable(acorn ${ADVENT}/src/main.cpp)
-target_link_libraries(acorn tsunagari)
+add_executable(acorn ${ADVENT}/src/main.cpp ${TSUNAGARI_SOURCES})
 
 include_directories(${HERE}/src)
 
@@ -226,7 +223,7 @@ if(${CMAKE_VERSION} VERSION_LESS 2.8.10)
     set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -DNDEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG")
 else()
-    target_compile_definitions(tsunagari PUBLIC $<$<NOT:${IS_DEBUG}>:NDEBUG>)
+    target_compile_definitions(acorn PUBLIC $<$<NOT:${IS_DEBUG}>:NDEBUG>)
 endif()
 
 # Enable color within compiler's output
@@ -299,19 +296,19 @@ if(LINUX AND NOT AV_EM)
     endif()
 
     if("${GLIBC_VERSION}" VERSION_LESS "2.17")
-        #target_link_libraries(tsunagari rt)
+        #target_link_libraries(acorn rt)
     endif()
 
     if(GLIBC_VERSION)
-        #target_link_libraries(tsunagari m pthread)
+        #target_link_libraries(acorn m pthread)
     endif()
 endif()
 
 if(FREEBSD OR NETBSD)
-    #target_link_libraries(tsunagari PUBLIC  m pthread)
+    #target_link_libraries(acorn PUBLIC  m pthread)
 endif()
 if(AV_EM)
-    #target_link_libraries(tsunagari PUBLIC  pthread)
+    #target_link_libraries(acorn PUBLIC  pthread)
 endif()
 
 
